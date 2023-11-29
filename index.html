@@ -31,6 +31,7 @@
 
       label {
         font-family: "League Spartan", sans-serif;
+        letter-spacing: 3px;
       }
 
       .age-text {
@@ -41,7 +42,7 @@
   </head>
   <body class="mx-auto md:py-[10%] py-[30%] md:px-[30%] px-6 bg-gray-100">
     <div
-      class="bg-white rounded-l-[10px] w-fit rounded-tr-[10px] rounded-br-[100px]"
+      class="bg-white rounded-l-[10px] shadow-r-1 shadow-b-1 w-fit rounded-tr-[10px] rounded-br-[100px]"
     >
       <div class="flex uppercase px-7 pt-4">
         <div class="text-left px-2">
@@ -52,7 +53,9 @@
             class="border-[1.5px] md:w-24 w-[70px] p-2 rounded font-bold"
             type="number"
             placeholder="DD"
-            oninput="restrictInputLength(this, 2)"
+            oninput="restrictInputLength(this, 2); validateNumberRange(this, 1, 31)"
+            min="1"
+            max="31"
           />
         </div>
         <div class="text-left px-2">
@@ -63,7 +66,9 @@
             class="border-[1.5px] md:w-24 w-[70px] p-2 rounded font-bold"
             type="number"
             placeholder="MM"
-            oninput="restrictInputLength(this, 2)"
+            oninput="restrictInputLength(this, 2); validateNumberRange(this, 1, 12)"
+            min="1"
+            max="12"
           />
         </div>
         <div class="text-left px-2">
@@ -75,6 +80,7 @@
             type="number"
             placeholder="YYYY"
             oninput="restrictInputLength(this, 4)"
+            min="1"
           />
         </div>
       </div>
@@ -122,9 +128,70 @@
       >. Coded by <a href="#">Sohaib Shah</a>.
     </div>
     <script>
+      function countCharactersAndFocus() {}
+
       function restrictInputLength(inputElement, maxLength) {
         if (inputElement.value.length > maxLength) {
           inputElement.value = inputElement.value.slice(0, maxLength);
+        }
+        // Get the first input element
+        var inputElement1 = document.getElementById("dayInput");
+        var inputElement2 = document.getElementById("monthInput");
+        var inputElement3 = document.getElementById("yearInput");
+
+        if (inputElement1) {
+          // Get the value of the first input
+          var inputValue1 = inputElement1.value;
+
+          // Get the length of the first input value (number of characters)
+          var characterCount = inputValue1.length;
+
+          // Check if character count is greater than or equal to 2
+          if (characterCount >= 2) {
+            // If true, focus on the second input
+            var inputElement2 = document.getElementById("monthInput");
+            inputElement2.focus();
+          }
+        }
+        if (inputElement2) {
+          // Get the value of the first input
+          var inputValue2 = inputElement2.value;
+
+          // Get the length of the first input value (number of characters)
+          var characterCount = inputValue2.length;
+
+          // Check if character count is greater than or equal to 2
+          if (characterCount >= 2) {
+            // If true, focus on the second input
+            var inputElement3 = document.getElementById("yearInput");
+            inputElement3.focus();
+          }
+        }
+
+        if (inputElement3) {
+          // Get the value of the first input
+          var inputValue3 = inputElement3.value;
+
+          // Get the length of the first input value (number of characters)
+          var characterCount = inputValue3.length;
+
+          // Check if character count is greater than or equal to 2
+          if (characterCount >= 4) {
+            // execute showAge function
+            showAge();
+            var inputElement3 = document.getElementById("yearInput");
+            inputElement3.blur();
+          }
+        }
+      }
+
+      function validateNumberRange(element, min, max) {
+        let value = parseInt(element.value, 10);
+
+        if (isNaN(value) || value < min) {
+          element.value = min;
+        } else if (value > max) {
+          element.value = max;
         }
       }
 
@@ -165,7 +232,7 @@
         };
       }
 
-      function showAge() {
+      const showAge = function () {
         var dayInput = document.getElementById("dayInput").value;
         var monthInput = document.getElementById("monthInput").value;
         var yearInput = document.getElementById("yearInput").value;
@@ -177,7 +244,7 @@
           document.getElementById("daysOld").innerHTML = ageDetails.days;
           console.log("ageDetails: ", ageDetails);
         }
-      }
+      };
       findAge.onclick = showAge;
     </script>
   </body>
